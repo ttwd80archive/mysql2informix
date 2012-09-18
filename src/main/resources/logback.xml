@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{ISO8601} %level %logger%n%msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.home}/log/ep.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${user.home}/ep-%d{yyyy-MM}.log</fileNamePattern>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{ISO8601} %level: %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE-SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.home}/log/ep.sql.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${user.home}/log/ep-sql-%d{yyyy-MM}.log
+			</fileNamePattern>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{ISO8601} %level: %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.hibernate" level="WARN" />
+	<logger name="org.springframework" level="INFO" />
+	<logger name="com.atomikos" level="WARN" />
+	<logger name="com.isianpadu.ep" level="DEBUG" />
+	<logger name="org.springframework.context.annotation" level="INFO" />
+	<logger name="org.springframework.web.servlet.mvc" level="WARN" />
+	<logger name="org.springframework.web.servlet" level="WARN" />
+
+
+	<logger name="org.hibernate.SQL" level="TRACE" additivity="true">
+		<appender-ref ref="FILE-SQL" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration> 
